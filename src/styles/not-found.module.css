@@ -1,0 +1,64 @@
+.page404 {
+  position: relative;
+  min-height: 80vh;
+  background: url("/images/404-error.png") center center / cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2rem 1rem;
+  color: white;
+  text-align: center;
+}
+
+.page404::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+.page404Content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.page404Content h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.page404Content p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.backToHome {
+  display: inline-block;
+  background: var(--main-blue);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.backToHome:hover {
+  background: var(--main-blue-hover);
+}
+
+@media (max-width: 480px) {
+  .page404Content h1 {
+    font-size: 3rem;
+  }
+
+  .page404Content p {
+    font-size: 1rem;
+  }
+}
