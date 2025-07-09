@@ -72,7 +72,7 @@ export default function Header({ documentTypes }: { documentTypes: DocumentType[
 
         <nav className={styles.menu}>
           <Link href="/" className={styles.menuItem}>Trang Chủ</Link>
-          <Link href="/src/app/upload" className={styles.menuItem}>Đóng góp tài liệu</Link>
+          <Link href="/upload" className={styles.menuItem}>Đóng góp tài liệu</Link>
           <div className={styles.dropdownContainer}>
             <button className={`${styles.menuItem} ${styles.dropdownTrigger}`}>
               Phân loại tài liệu
