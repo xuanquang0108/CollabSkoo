@@ -126,7 +126,7 @@ export default function Header({ documentTypes }: { documentTypes: DocumentType[
               </li>
             ))}
             <li><Link href="/documents" onClick={() => setIsSidePanelOpen(false)}>Kho tài liệu</Link></li>
-            <li><Link href="/src/app/upload" onClick={() => setIsSidePanelOpen(false)}>Đóng góp tài liệu</Link></li>
+            <li><Link href="/upload" onClick={() => setIsSidePanelOpen(false)}>Đóng góp tài liệu</Link></li>
           </ul>
         </nav>
       </div>

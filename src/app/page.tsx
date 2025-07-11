@@ -18,8 +18,8 @@ async function getDocumentTypes(): Promise<DocumentType[]> {
   ];
 }
 
-// ✅ Đây là Server Component, KHÔNG CẦN "use client"
 export default async function Home() {
+
   const documentTypes = await getDocumentTypes();
   const categories = await getCategories();
 

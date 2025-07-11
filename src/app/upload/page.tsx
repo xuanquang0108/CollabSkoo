@@ -55,59 +55,59 @@ export default function UploadDocument() {
         publish_year: '',
       });
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setMessage(json.error || 'Tải lên thất bại.');
     }
   };
 
   return (
-    <section className="upload-section">
-      <h2>Đóng Góp tài liệu</h2>
+    <div className="upload-wrapper">
+      <section className="upload-section">
+        <h2>Đóng Góp Tài Liệu</h2>
 
-      {message && (
-        <div className="flash-messages">
-          <li>
-            {message}
-          </li>
-        </div>
-      )}
+        {message && (
+          <ul className="flash-messages">
+            <li>{message}</li>
+          </ul>
+        )}
 
-      <form className="upload-form" onSubmit={(e) => { e.preventDefault(); handleUpload(); }}>
-        <label>Tên tài liệu:</label>
-        <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+        <form className="upload-form" onSubmit={(e) => { e.preventDefault(); handleUpload(); }}>
+          <label>Tên tài liệu:</label>
+          <input type="text" name="title" value={formData.title} onChange={handleChange} required />
 
-        <label>Ngành học:</label>
-        <select name="category" onChange={handleChange}>
-          <option value="">Chọn ngành</option>
-          <option value="1">Công nghệ thông tin</option>
-          <option value="2">Kinh tế</option>
-        </select>
+          <label>Ngành học:</label>
+          <select name="category" onChange={handleChange}>
+            <option value="">Chọn ngành</option>
+            <option value="1">Công nghệ thông tin</option>
+            <option value="2">Kinh tế</option>
+          </select>
 
-        <label>Phân loại tài liệu:</label>
-        <select name="document_type" value={formData.document_type} onChange={handleChange} required>
-          <option value="">Chọn loại</option>
-          <option value="1">Giáo trình</option>
-          <option value="2">Bài giảng</option>
-          <option value="3">Ôn thi</option>
-        </select>
+          <label>Phân loại tài liệu:</label>
+          <select name="document_type" value={formData.document_type} onChange={handleChange} required>
+            <option value="">Chọn loại</option>
+            <option value="1">Giáo trình</option>
+            <option value="2">Bài giảng</option>
+            <option value="3">Ôn thi</option>
+          </select>
 
-        <label>Giảng viên (nếu có):</label>
-        <input type="text" name="lecturer" value={formData.lecturer} onChange={handleChange} />
+          <label>Giảng viên (nếu có):</label>
+          <input type="text" name="lecturer" value={formData.lecturer} onChange={handleChange} />
 
-        <label>Năm xuất bản (nếu có):</label>
-        <input type="number" name="publish_year" value={formData.publish_year} onChange={handleChange} />
+          <label>Năm xuất bản (nếu có):</label>
+          <input type="number" name="publish_year" value={formData.publish_year} onChange={handleChange} />
 
-        <section className="upload-box" id="dropArea">
-          <p>Kéo và thả file vào đây<br />hoặc bấm để chọn</p>
-          <input className="input_upload" id="fileInput" type="file" onChange={handleFileChange} />
-          <label htmlFor="fileInput" className="upload-label">Chọn file</label>
-          <div className="upload-hint">Chấp nhận: PDF, Word, Excel, PowerPoint, ảnh JPG/PNG</div>
-          {file && <div className="file-preview">Đã chọn: <strong>{file.name}</strong></div>}
-        </section>
+          <section className="upload-box">
+            <p>Kéo và thả file vào đây<br />hoặc bấm để chọn</p>
+            <input className="input_upload" id="fileInput" type="file" onChange={handleFileChange} />
+            <label htmlFor="fileInput" className="upload-label">Chọn file</label>
+            <div className="upload-hint">Chấp nhận: PDF, Word, Excel, PowerPoint, ảnh JPG/PNG</div>
+            {file && <div className="file-preview">Đã chọn: <strong>{file.name}</strong></div>}
+          </section>
 
-        <button type="submit" className="submit-btn">Gửi Tài Liệu</button>
-      </form>
-    </section>
+          <button type="submit" className="submit-btn">Gửi Tài Liệu</button>
+        </form>
+      </section>
+    </div>
   );
 }

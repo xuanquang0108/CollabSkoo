@@ -1,5 +1,5 @@
-// src/lib/categories.ts
-import { query } from './db';
+//import { query } from './db';
+import { supabase } from './supabaseClient'
 
 export interface Category {
   id: string;
@@ -7,15 +7,17 @@ export interface Category {
 }
 
 export async function getCategories() {
-  try {
-    // Thực hiện truy vấn SQL
-    const categories = await query(
-      'SELECT id, name FROM categories',
-      []
-    ) as Category[];
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .order('name', { ascending: true })
 
-    return categories;
-  } catch (error) {
-    console.error('Failed to fetch categories:', error);
+    console.log('✅ Supabase data:', data?.length, 'mục');
+
+  if (error) {
+    console.error('Lỗi lấy categories từ Supabase:', error.message)
+    return []
   }
+
+  return data ?? [];
 }

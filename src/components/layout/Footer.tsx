@@ -25,7 +25,7 @@ export default function Footer() {
         <div className={styles.footerMiddle}>
           <ul className={styles.footerLinks}>
             <li><Link href="/">Trang chủ</Link></li>
-            <li><Link href="/src/app/upload">Đóng góp tài liệu</Link></li>
+            <li><Link href="/upload">Đóng góp tài liệu</Link></li>
             <li><Link href="/documents">Tất cả tài liệu</Link></li>
             <li><Link href="/#faq-section">FAQ</Link></li>
           </ul>
