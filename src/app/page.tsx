@@ -2,24 +2,16 @@ import Link from 'next/link';
 import homeStyles from '@/styles/home.module.css';
 import FAQ from "@/components/FAQ/FAQ";
 import categoriesStyles from "@/components/categories/Categories.module.css";
-import { getCategories } from "@/lib/categories";
 import CategoriesDisplay from "@/components/categories/Categories";
+import { getCategories } from "@/lib/categories";
+import { getDocumentTypes } from '@/lib/documentTypes';
 
-interface DocumentType {
-  id: number;
-  name: string;
-}
-
-async function getDocumentTypes(): Promise<DocumentType[]> {
-  return [
-    { id: 1, name: 'Giáo trình' },
-    { id: 2, name: 'Bài giảng' },
-    { id: 3, name: 'Ôn thi' },
-  ];
-}
+// interface DocumentType {
+//   id: number;
+//   name: string;
+// }
 
 export default async function Home() {
-
   const documentTypes = await getDocumentTypes();
   const categories = await getCategories();
 

@@ -1,4 +1,3 @@
-//import { query } from './db';
 import { supabase } from './supabaseClient'
 
 export interface Category {

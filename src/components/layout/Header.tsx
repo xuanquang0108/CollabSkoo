@@ -1,4 +1,3 @@
-// components/layout/Header.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -38,79 +37,83 @@ export default function Header({ documentTypes }: { documentTypes: DocumentType[
   }, [isSidePanelOpen]);
 
   return (
-    <header className={styles.header}>
-      <div className={styles.navDiv}>
-        <div className={styles.logo}>
-          <Link href="/">
-            <Image
-              src="/images/Logo-without_bg-02.png"
-              alt="Logo"
-              width={200}
-              height={70}
-              priority
-              style={{ width: 'auto', height: 'auto'}}
-            />
-          </Link>
-        </div>
-
-        <form
-          className={styles.searchHeader}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (searchQuery.trim()) {
-              router.push(`/documents?q=${encodeURIComponent(searchQuery)}`);
-            }
-          }}
-        >
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm tài liệu..."
-          />
-        </form>
-
-        <nav className={styles.menu}>
-          <Link href="/" className={styles.menuItem}>Trang Chủ</Link>
-          <Link href="/upload" className={styles.menuItem}>Đóng góp tài liệu</Link>
-          <div className={styles.dropdownContainer}>
-            <button className={`${styles.menuItem} ${styles.dropdownTrigger}`}>
-              Phân loại tài liệu
-              <span className={styles.dropdownArrow}>▾</span>
-            </button>
-            <ul className={styles.dropdownMenu}>
-              {documentTypes.map((type) => (
-                <li key={type.id}>
-                  <Link
-                    href={`/documents?doc_type=${type.id}`}
-                    className={styles.dropdownItem}
-                  >
-                    {type.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+    <>
+      <header className={styles.header}>
+        <div className={styles.navDiv}>
+          <div className={styles.logo}>
+            <Link href="/">
+              <Image
+                src="/images/Logo-without_bg-02.png"
+                alt="Logo"
+                width={200}
+                height={70}
+                priority
+                style={{ width: 'auto', height: 'auto' }}
+              />
+            </Link>
           </div>
-          <Link href="/documents" className={styles.menuItem}>Kho tài liệu</Link>
-        </nav>
 
-        <button
-          className={styles.hamburger}
-          onClick={toggleMenu}
-        >
-          {isSidePanelOpen ? '×' : '☰'}
-        </button>
-      </div>
+          <form
+            className={styles.searchHeader}
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (searchQuery.trim()) {
+                router.push(`/documents?q=${encodeURIComponent(searchQuery)}`);
+              }
+            }}
+          >
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm tài liệu..."
+            />
+          </form>
+
+          <nav className={styles.menu}>
+            <Link href="/" className={styles.menuItem}>Trang Chủ</Link>
+            <Link href="/upload" className={styles.menuItem}>Đóng góp tài liệu</Link>
+
+            <div className={styles.dropdownContainer}>
+              <Link href="/documents" className={`${styles.menuItem} ${styles.dropdownTrigger}`}>
+                Kho tài liệu
+                <span className={styles.dropdownArrow}>▾</span>
+              </Link>
+              <ul className={styles.dropdownMenu}>
+                {documentTypes.map((type) => (
+                  <li key={type.id}>
+                    <Link
+                      href={`/documents?doc_type=${type.id}`}
+                      className={styles.dropdownItem}
+                    >
+                      {type.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+
+
+          <button
+            className={styles.hamburger}
+            onClick={toggleMenu}
+          >
+            {isSidePanelOpen ? '×' : '☰'}
+          </button>
+        </div>
+      </header>
 
       {/* Mobile Side Panel */}
       <div
         id="side-panel"
         className={`${styles.sidePanel} ${isSidePanelOpen ? styles.sidePanelOpen : ''}`}
       >
-        <button className={styles.closeButton}
-        onClick={() => setIsSidePanelOpen(false)}
-      >
-        x
+        <button
+          className={styles.closeButton}
+          onClick={() => setIsSidePanelOpen(false)}
+        >
+          x
         </button>
         <nav className={styles.mobilePanelNav}>
           <ul className={styles.mobilePanelList}>
@@ -130,6 +133,6 @@ export default function Header({ documentTypes }: { documentTypes: DocumentType[
           </ul>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

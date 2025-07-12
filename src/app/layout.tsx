@@ -2,6 +2,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import '@/styles/globals.css'
 import { Roboto } from 'next/font/google'
+import { getDocumentTypes } from '@/lib/documentTypes';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -17,11 +18,12 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({ children,}: {children: React.ReactNode}) {
+export default async function RootLayout({ children,}: {children: React.ReactNode}) {
+  const documentTypes = await getDocumentTypes();
   return (
     <html lang="vi" className={roboto.variable}>
       <body className="font-sans">
-        <Header documentTypes={[{id:1, name:'Giáo trình'}, {id:2, name:'Bài giảng'}]}/>
+        <Header documentTypes={documentTypes}/>
           <main>{children}</main>
         <Footer />
       </body>
