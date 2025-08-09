@@ -1,11 +1,13 @@
-// app/search/page.tsx
+// src/app/search/page.tsx
 import React, { Suspense } from "react";
-import SearchBar from "@/components/_components/SearchBar";
-import SearchClient from "./SearchClient";
+import SearchBar from "@/components/_components/SearchBar"; // chỉnh nếu path khác
+import SearchClient from "./SearchClient"; // phải là client component ("use client")
 
-type Props = { searchParams?: { q?: string | string[] } };
-
-export default function SearchPage({ searchParams }: Props) {
+export default function SearchPage({
+                                       searchParams,
+                                   }: {
+    searchParams?: { q?: string | string[] };
+}) {
     const raw = searchParams?.q ?? "";
     const q = Array.isArray(raw) ? raw[0] : raw;
 
