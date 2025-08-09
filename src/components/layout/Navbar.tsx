@@ -155,12 +155,13 @@ export default function Navbar() {
         </button>
 
         {/* Mobile menu portal */}
-        {mobileMenuOpen && (
-          <MobileMenuPortal
-            onClose={() => setMobileMenuOpen(false)}
-            navigationItems={navigationItems}
-          />
-        )}
+          {mobileMenuOpen && (
+              <MobileMenuPortal
+                  onClose={() => setMobileMenuOpen(false)}
+                  navigationItems={navigationItems}
+                  user={user}   // <--- add this line
+              />
+          )}
       </div>
     </header>
   )

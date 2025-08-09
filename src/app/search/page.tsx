@@ -6,10 +6,6 @@ import SearchClient from "./SearchClient"; // phải bắt đầu bằng "use cl
 export default function SearchPage() {
     return (
         <main className="min-h-screen flex flex-col">
-            <div className="p-4">
-                <SearchBar />
-            </div>
-
             <Suspense
                 fallback={
                     <div className="flex-1 flex items-center justify-center">

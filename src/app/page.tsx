@@ -4,12 +4,6 @@ import categoriesStyles from "@/components/categories/Categories.module.css";
 import CategoriesDisplay from "@/components/categories/Categories";
 import { getCategories } from "@/lib/categories";
 import { getDocumentTypes } from '@/lib/documentTypes';
-import SearchBar from "@/components/_components/SearchBar";
-
-// interface DocumentType {
-//   id: number;
-//   name: string;
-// }
 
 export default async function Home() {
   const documentTypes = await getDocumentTypes();

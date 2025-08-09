@@ -3,18 +3,31 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import BackButton from "@/components/_components/BackButton";
+import {Input} from "@/components/ui/input";
+import PasswordStrengthInput from "@/components/_components/PasswordStrengthIndicator";
+import {toast} from "sonner";
 
 export default function RegisterPage() {
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [showConfirmPage, setShowConfirmPage] = useState(false);
     const [message, setMessage] = useState("");
-    const router = useRouter();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setMessage("");
+
+        const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!passwordRequirements.test(password)) {
+            toast.error("Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường và 1 số.");
+            setLoading(false);
+            return;
+        }
 
         const { error } = await supabase.auth.signUp({
             email,
@@ -27,85 +40,93 @@ export default function RegisterPage() {
         setLoading(false);
 
         if (error) {
-            setMessage(error.message);
+            toast.error(error.message);
         } else {
-            setShowConfirmPage(true);
+            toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.");
+            await new Promise((res) => setTimeout(res, 2000));
+            router.push("/login");
         }
     };
-
-    const handleResend = async () => {
-        if (!email) return;
-        const { error } = await supabase.auth.resend({
-            type: "signup",
-            email,
-            options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-            },
-        });
-        if (error) {
-            setMessage(error.message);
-        } else {
-            setMessage("Đã gửi lại email xác nhận!");
-        }
-    };
-
-    if (showConfirmPage) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen text-center p-6">
-                <h1 className="text-xl font-semibold mb-4">
-                    Hãy kiểm tra email để xác nhận tài khoản
-                </h1>
-                <p className="mb-4">Chúng tôi đã gửi email xác nhận tới:</p>
-                <p className="font-medium">{email}</p>
-                {message && <p className="text-sm text-red-500 mt-2">{message}</p>}
-                <button
-                    onClick={handleResend}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                    Gửi lại email xác nhận
-                </button>
-                <button
-                    onClick={() => router.push("/login")}
-                    className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                >
-                    Quay lại đăng nhập
-                </button>
-            </div>
-        );
-    }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-6">
-            <form
-                onSubmit={handleRegister}
-                className="w-full max-w-sm p-6 bg-white rounded shadow-md"
+        <main className="w-full min-h-screen flex items-center justify-center py-8 px-4 bg-background">
+            <div
+                className="relative w-full max-w-md bg-white rounded-3xl shadow-lg p-8
+                   flex flex-col items-center justify-center gap-6"
             >
-                <h2 className="text-xl font-semibold mb-4">Đăng ký</h2>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full p-2 mb-4 border rounded"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Mật khẩu"
-                    className="w-full p-2 mb-4 border rounded"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                {message && <p className="text-sm text-red-500 mb-2">{message}</p>}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                    disabled={loading}
-                >
-                    {loading ? "Đang đăng ký..." : "Đăng ký"}
-                </button>
-            </form>
-        </div>
+                {/* Quay lại */}
+                <div className="flex flex-col items-center justify-center">
+                    <BackButton/>
+                </div>
+
+                {/* Logo + heading */}
+                <div className="flex flex-col items-center mt-2">
+                    <Image
+                        src="/assets/Blue-CollabSkoo-Logo.png"
+                        alt="CollabSkoo logo"
+                        width={160}
+                        height={160}
+                        className="mb-2"
+                    />
+                    <h1 className="text-2xl font-bold text-center uppercase text-primary space-y-4">Đăng ký tài khoản</h1>
+                    <p className="text-sm text-gray-500 text-center mt-1">
+                        Vui lòng nhập thông tin của bạn để đăng ký tài khoản.
+                    </p>
+                </div>
+
+                {/* Form */}
+                <form className="w-full mt-2" onSubmit={handleRegister}>
+                    <div className="space-y-4">
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium mb-1">
+                                Email
+                            </label>
+                            <Input
+                                id="email"
+                                type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="your@email.com"
+                                className="w-full rounded-md border border-primary bg-white px-3 py-2 text-sm text-black placeholder-gray-400
+                                focus:outline-none focus:ring-2 focus:!ring-primary"
+                                aria-label="Email"
+                            />
+                        </div>
+
+                        <div>
+                            <PasswordStrengthInput value={password} onChange={setPassword} />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full bg-primary text-white py-2 rounded-md text-md font-medium hover:bg-blue-600 transition disabled:opacity-50"
+                        >
+                            {loading ? "Đang xử lý..." : "Đăng ký"}
+                        </button>
+                    </div>
+                </form>
+
+                {/* Bottom links */}
+                <div className="w-full flex items-center justify-center gap-2 pt-1">
+                    <p className="text-sm text-gray-500">Bạn đã có tài khoản?</p>
+                    <Link href="/login" className="text-primary hover:underline text-sm">
+                        Đăng nhập!
+                    </Link>
+                </div>
+
+                <p className="text-xs text-center text-gray-500 mt-1 max-w-[90%] leading-relaxed">
+                    Bằng cách đăng ký tài khoản, bạn đồng ý với{" "}
+                    <Link href="/terms" className="text-primary hover:underline">
+                        Điều khoản dịch vụ
+                    </Link>{" "}
+                    và{" "}
+                    <Link href="/privacy" className="text-primary hover:underline">
+                        Chính sách bảo mật
+                    </Link>.
+                </p>
+            </div>
+        </main>
     );
 }

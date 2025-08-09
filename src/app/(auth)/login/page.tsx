@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,33 +8,46 @@ import { supabase } from "@/lib/supabaseClient";
 import PasswordInput from "@/components/PasswordInput";
 import { Input } from "@/components/ui/input";
 import BackButton from "@/components/_components/BackButton";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     // controlled state for form
     const [email, setEmail] = useState("");
-    const [password] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [loadingOAuth, setLoadingOAuth] = useState(false);
+    const [message, setMessage] = useState("");
+    const [remember, setRemember] = useState<boolean>(true);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    useEffect(() => {
+        const saved = typeof window !== "undefined" ? localStorage.getItem("skoo_email") : null;
+        if (saved) setEmail(saved);
+    }, []);
+
+    const router = useRouter();
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setMessage("");
         setLoading(true);
 
-        try {
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
+        console.log("Attempt login with:", { email, password }); // debug
 
-            if (error) {
-                // you can replace with toast
-                alert("Đăng nhập thất bại: " + error.message);
-            } else {
-                alert("Đăng nhập thành công!");
-                // redirect handled by your app or you can router.push("/")
-            }
-        } finally {
-            setLoading(false);
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+
+        setLoading(false);
+
+        if (error) {
+            alert("Đăng nhập thất bại: " + error.message);
+        } else {
+            // persist or remove saved email according to checkbox
+            if (remember) localStorage.setItem("skoo_email", email);
+            else localStorage.removeItem("skoo_email");
+
+            router.push("/");
         }
     };
 
@@ -61,26 +74,18 @@ export default function LoginPage() {
             >
                 {/* Quay lại */}
                 <div className="flex flex-col items-center justify-center">
-                    <BackButton/>
+                    <BackButton />
                 </div>
 
                 {/* Logo + heading */}
                 <div className="flex flex-col items-center mt-2">
-                    <Image
-                        src="/assets/Blue-CollabSkoo-Logo.png"
-                        alt="CollabSkoo logo"
-                        width={160}
-                        height={160}
-                        className="mb-2"
-                    />
+                    <Image src="/assets/Blue-CollabSkoo-Logo.png" alt="CollabSkoo logo" width={160} height={160} className="mb-2" />
                     <h1 className="text-2xl font-bold text-center uppercase text-primary space-y-4">Đăng nhập</h1>
-                    <p className="text-sm text-gray-500 text-center mt-1">
-                        Vui lòng nhập thông tin của bạn để đăng nhập.
-                    </p>
+                    <p className="text-sm text-gray-500 text-center mt-1">Vui lòng nhập thông tin của bạn để đăng nhập.</p>
                 </div>
 
                 {/* Form */}
-                <form className="w-full mt-2" onSubmit={handleSubmit} noValidate>
+                <form className="w-full mt-2" onSubmit={handleLogin} noValidate>
                     <div className="space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -100,12 +105,18 @@ export default function LoginPage() {
                         </div>
 
                         <div>
-                            <PasswordInput/>
+                            {/* controlled password input */}
+                            <PasswordInput value={password} onChange={(v: string) => setPassword(v)} autoComplete="current-password" />
                         </div>
 
                         <div className="flex items-center justify-between text-sm text-gray-600 py-1">
                             <label className="flex items-center gap-2 cursor-pointer text-sm">
-                                <input type="checkbox" className="accent-primary" />
+                                <input
+                                    type="checkbox"
+                                    className="accent-primary"
+                                    checked={remember}
+                                    onChange={(e) => setRemember(e.target.checked)}
+                                />
                                 Ghi nhớ đăng nhập
                             </label>
                             <Link href="/forgot" className="text-primary hover:underline text-sm">
@@ -159,7 +170,8 @@ export default function LoginPage() {
                     và{" "}
                     <Link href="/privacy" className="text-primary hover:underline">
                         Chính sách bảo mật
-                    </Link>.
+                    </Link>
+                    .
                 </p>
             </div>
         </main>
