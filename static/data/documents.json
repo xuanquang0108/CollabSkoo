@@ -134,7 +134,7 @@
             "page_count": null,
             "publish_year": null,
             "file_path": "static/uploads/37_Quang_N2_QLPK.docx",
-            "thumbnail": "static/images/default-thumbnail.png"
+            "thumbnail": "static/assets/default-thumbnail.png"
         },
         {
             "id": 14,
@@ -145,7 +145,7 @@
             "page_count": 2,
             "publish_year": null,
             "file_path": "static/uploads/Lab1_0.pdf",
-            "thumbnail": "static/thumbnails/Lab1_0_thumb.png"
+            "thumbnail": "static/assets/Lab1_0_thumb.png"
         },
         {
             "id": 15,
@@ -156,7 +156,7 @@
             "page_count": 5,
             "publish_year": null,
             "file_path": "static/uploads/Lab1_2.pdf",
-            "thumbnail": "static/thumbnails/Lab1_2_thumb.png"
+            "thumbnail": "static/assets/Lab1_2_thumb.png"
         },
         {
             "id": 16,
@@ -167,7 +167,7 @@
             "page_count": 4,
             "publish_year": null,
             "file_path": "static/uploads/Lab1_3.pdf",
-            "thumbnail": "static/thumbnails/Lab1_3_thumb.png"
+            "thumbnail": "static/assets/Lab1_3_thumb.png"
         },
         {
             "id": 17,
@@ -178,7 +178,7 @@
             "page_count": 5,
             "publish_year": null,
             "file_path": "static/uploads/Lab1_2.pdf",
-            "thumbnail": "static/thumbnails/Lab1_2_thumb.png"
+            "thumbnail": "static/assets/Lab1_2_thumb.png"
         },
         {
             "id": 18,
@@ -189,7 +189,7 @@
             "page_count": 4,
             "publish_year": null,
             "file_path": "static/uploads/AP_AN_CHO_E_OOP_PDF.pdf",
-            "thumbnail": "static/thumbnails/AP_AN_CHO_E_OOP_PDF_thumb.png"
+            "thumbnail": "static/assets/AP_AN_CHO_E_OOP_PDF_thumb.png"
         },
         {
             "id": 19,
@@ -200,7 +200,7 @@
             "page_count": 6,
             "publish_year": null,
             "file_path": "static/uploads/OOP-OnTapCK.pdf",
-            "thumbnail": "static/thumbnails/OOP-OnTapCK_thumb.png"
+            "thumbnail": "static/assets/OOP-OnTapCK_thumb.png"
         },
         {
             "id": 20,
@@ -211,7 +211,7 @@
             "page_count": 4,
             "publish_year": null,
             "file_path": "static/uploads/AP_AN_CHO_E_OOP_PDF.pdf",
-            "thumbnail": "static/thumbnails/AP_AN_CHO_E_OOP_PDF_thumb.png"
+            "thumbnail": "static/assets/AP_AN_CHO_E_OOP_PDF_thumb.png"
         },
         {
             "id": 21,
@@ -222,7 +222,7 @@
             "page_count": null,
             "publish_year": null,
             "file_path": "static/uploads/AP_AN_CHO_E_OOP.docx",
-            "thumbnail": "static/images/default-thumbnail.png"
+            "thumbnail": "static/assets/default-thumbnail.png"
         },
         {
             "id": 22,
@@ -233,7 +233,7 @@
             "page_count": null,
             "publish_year": null,
             "file_path": "static/uploads/On_tap-Mang_may_tinh.docx",
-            "thumbnail": "static/images/default-thumbnail.png"
+            "thumbnail": "static/assets/default-thumbnail.png"
         }
     ]
 }
