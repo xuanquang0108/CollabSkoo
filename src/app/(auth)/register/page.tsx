@@ -34,19 +34,16 @@ export default function RegisterPage() {
         const { error } = await supabase.auth.signUp({
             email,
             password,
-            options: {
-                emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-            },
         });
 
         setLoading(false);
 
         if (error) {
             toast.error(error.message);
-        } else {
-            toast.success("Vui lòng kiểm tra email để xác nhận tài khoản!");
-            router.push("/login");
         }
+        
+        toast.success("Vui lòng kiểm tra email để xác nhận tài khoản!");
+        router.push("/login");
     };
 
     return (

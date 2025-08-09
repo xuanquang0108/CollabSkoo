@@ -7,7 +7,7 @@ export default function SearchPage() {
     return (
         <main className="min-h-screen flex flex-col">
             <div className="p-4">
-                <SearchBar /> {/* SearchBar có defaultValue='' nên an toàn */}
+                <SearchBar />
             </div>
 
             <Suspense
