@@ -9,7 +9,7 @@ import { supabase } from '@/lib/supabaseClient'
 import SearchBar from '@/components/_components/SearchBar'
 import MobileMenuPortal from '@/components/layout/MobileMenuPortal'
 import { useAuth } from '@/lib/AuthProvider'
-import UserDropDown from '@/components/UserDropDown'
+import UserDropDown from '@/components/_components/UserDropDown'
 
 export interface DocumentType {
   id: string

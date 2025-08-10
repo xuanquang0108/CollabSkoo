@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "tailwindcss";
+
 
 @import "tailwindcss/utilities";
 
@@ -11,6 +11,10 @@
 
 @custom-variant dark (&:is(.dark *));
 @tailwind utilities;
+
+html, body {
+    @apply m-0 p-0 overflow-x-hidden;
+}
 
 :root {
   /* Light theme inspired by CollabSkoo */

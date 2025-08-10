@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import {Toaster} from "sonner";
 import {AuthProvider} from "@/lib/AuthProvider";
 import AppWrapper from "@/components/_components/AppWrapper";
+import GlobalLoader from "@/components/_components/GlobalLoader";
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -41,8 +42,29 @@ export default async function RootLayout({
           <AuthProvider>
               <Navbar />
                   <AppWrapper navigationItems={navigationItems}>
-                      <main className="mx-auto px-4 md:px6 lg:px-8 max-w-full">{children}
-                        <Toaster position="bottom-right" richColors closeButton />
+                      <GlobalLoader />
+                      <main className="mx-auto">{children}
+                          <Toaster
+                              position="bottom-right"
+                              richColors
+                              closeButton
+                              duration={3000}
+                              theme="dark"
+                              toastOptions={{
+                                  style: {
+                                      background: "#09090a", // dark flat background
+                                      color: "#fff",
+                                      borderRadius: "8px",
+                                      padding: "12px 16px",
+                                      fontSize: "14px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "8px",
+                                      fontWeight: "regular",
+                                  },
+                              }}
+                          />
+
                       </main>
                   </AppWrapper>
               <Footer />

@@ -5,10 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { supabase } from "@/lib/supabaseClient";
-import PasswordInput from "@/components/PasswordInput";
+import PasswordInput from "@/components/_components/PasswordInput";
 import { Input } from "@/components/ui/input";
 import BackButton from "@/components/_components/BackButton";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function LoginPage() {
     // controlled state for form
@@ -29,9 +30,18 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");
-        setLoading(true);
 
-        console.log("Attempt login with:", { email, password }); // debug
+        //Early validation
+        if (!email.trim()) {
+            toast.error("Vui lòng nhập email!");
+            return
+        }
+        if (!password.trim()) {
+            toast.error("Vui lòng nhập mật khẩu")
+            return
+        }
+
+        setLoading(true);
 
         const { error } = await supabase.auth.signInWithPassword({
             email,
@@ -41,12 +51,13 @@ export default function LoginPage() {
         setLoading(false);
 
         if (error) {
-            alert("Đăng nhập thất bại: " + error.message);
+            toast.error("Đăng nhập thất bại: " + error.message);
         } else {
             // persist or remove saved email according to checkbox
             if (remember) localStorage.setItem("skoo_email", email);
             else localStorage.removeItem("skoo_email");
 
+            toast.success("Đăng nhập thành công!")
             router.push("/");
         }
     };
@@ -58,7 +69,7 @@ export default function LoginPage() {
             await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
-                    redirectTo: auth_callback_url,
+                    redirectTo: `${window.location.origin}/auth/callback`
                 },
             });
         } finally {
@@ -99,13 +110,12 @@ export default function LoginPage() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="your@email.com"
                                 className="w-full rounded-md border border-primary bg-white px-3 py-2 text-sm text-black placeholder-gray-400
-                                focus:!outline-none focus:ring-2 focus:!ring-primary"
+                                focus:!outline-none focus:ring-2 focus:!ring-primary focus:!border-primary"
                                 aria-label="Email"
                             />
                         </div>
 
                         <div>
-                            {/* controlled password input */}
                             <PasswordInput value={password} onChange={(v: string) => setPassword(v)} autoComplete="current-password" />
                         </div>
 

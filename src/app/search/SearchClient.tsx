@@ -23,6 +23,7 @@ export default function SearchClient({ initialQuery = "" }: Props) {
                 if (mounted) setResults([]);
                 return;
             }
+            window.startGlobalLoader?.();
             if (mounted) setLoading(true);
             try {
                 const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);

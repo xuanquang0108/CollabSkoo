@@ -53,12 +53,14 @@ export default function SearchBar({ defaultValue = '', onSubmit }: SearchBarProp
         if (e) e.preventDefault()
         const q = query.trim()
         if (!q) return
+
         if (onSubmit) {
             onSubmit(q)
         } else {
             router.push(`/search?q=${encodeURIComponent(q)}`)
         }
         setSuggestions([])
+        setQuery('')
     }
 
     const handleSelect = (term: string) => {
@@ -69,6 +71,7 @@ export default function SearchBar({ defaultValue = '', onSubmit }: SearchBarProp
             router.push(`/search?q=${encodeURIComponent(term)}`)
         }
         setSuggestions([])
+        setQuery('')
     }
 
     return (

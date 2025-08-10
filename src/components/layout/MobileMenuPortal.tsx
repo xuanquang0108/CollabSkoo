@@ -39,6 +39,7 @@ export default function MobileMenuPortal({
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
+        window.history.replaceState(null, '', window.location.pathname);
         toast.success("Đăng xuất thành công")
         onClose()
     }
@@ -126,7 +127,7 @@ export default function MobileMenuPortal({
                             Đăng nhập
                         </Link>
                         <Link
-                            href="/signup"
+                            href="/register"
                             className="block text-lg font-medium hover:text-white"
                             onClick={onClose}
                         >

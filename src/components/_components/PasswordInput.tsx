@@ -57,7 +57,7 @@ export default function PasswordInput({
                     placeholder={placeholder}
                     className={
                         className ??
-                        "p-2 block w-full rounded-md border-1 border-primary text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:!ring-primary"
+                        "p-2 block w-full rounded-md border-1 border-primary text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:!ring-primary focus:!border-primary"
                     }
                     type={isVisible ? "text" : "password"}
                     value={value !== undefined ? value : internal}
