@@ -28,8 +28,7 @@ export default function ForgotPage() {
                 toast.error(error.message);
             } else {
                 toast.success("Đã gửi email đặt lại mật khẩu. Vui lòng kiểm tra hộp thư.");
-                // Option A: show a "check email" screen on same route (simpler)
-                router.push("/check-email"); // optional: create a check-email page OR change to /login
+                router.push("/reset-password"); // optional: create a check-email page OR change to /login
             }
         } catch (err: any) {
             toast.error(err?.message ?? "Có lỗi xảy ra.");
