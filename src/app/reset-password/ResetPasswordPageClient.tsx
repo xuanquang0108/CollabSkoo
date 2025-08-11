@@ -1,4 +1,3 @@
-// app/reset-password/page.tsx
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
@@ -7,8 +6,6 @@ import { supabase } from "@/lib/supabaseClient"
 import { toast } from "sonner"
 import Image from "next/image"
 
-/* Optional: if you have these component files in your project, it will use them.
-   If not, it will fallback to plain inputs inside the render. */
 import PasswordInput from "@/components/_components/PasswordInput"
 import BackButton from "@/components/_components/BackButton"
 import {Input} from "@/components/ui/input";
