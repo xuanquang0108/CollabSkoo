@@ -20,7 +20,6 @@ export default function AuthCallback() {
                 toast.success("Đăng nhập thành công!");
                 router.replace("/"); // back to home or dashboard
             } else {
-                console.error(error);
                 toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
                 router.replace("/login");
             }

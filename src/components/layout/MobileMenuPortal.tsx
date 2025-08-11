@@ -5,11 +5,9 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
-    BoltIcon,
     BookOpenIcon,
     Layers2Icon,
     LogOutIcon,
-    PinIcon,
     UserPenIcon,
 } from "lucide-react"
 import { User } from "@supabase/supabase-js"
@@ -47,9 +45,9 @@ export default function MobileMenuPortal({
     if (!mounted) return null
 
     return createPortal(
-        <div className="fixed inset-0 z-[999] bg-[#09090a] text-white flex flex-col">
+        <div className="fixed inset-0 z-[999] bg-black text-white flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-white/10 min-h">
                 {user ? (
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-neutral-800/80 flex items-center justify-center">
@@ -73,7 +71,7 @@ export default function MobileMenuPortal({
                 ):(
                     <div className="flex items-center gap-3"></div>
                 )}
-                <button onClick={onClose} className="text-white text-2xl">
+                <button onClick={onClose} className="text-white text-2xl w-5 h-5 min-h-[70px] mr-4">
                     ✕
                 </button>
             </div>
@@ -93,24 +91,16 @@ export default function MobileMenuPortal({
             </div>
 
             {/* User specific links or login/signup */}
-            <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+            <div className="flex flex-col p-6 space-y-6">
                 {user ? (
                     <>
-                        <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
-                            <BoltIcon size={18} />
-                            <span>Tài khoản</span>
-                        </Link>
                         <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
                             <Layers2Icon size={18} />
                             <span>Tài liệu của tôi</span>
                         </Link>
                         <Link href="/leaderBoard" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
                             <BookOpenIcon size={18} />
-                            <span>Leader Board</span>
-                        </Link>
-                        <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
-                            <PinIcon size={18} />
-                            <span>Đã lưu</span>
+                            <span>Bảng xếp hạng</span>
                         </Link>
                         <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
                             <UserPenIcon size={18} />
@@ -138,7 +128,7 @@ export default function MobileMenuPortal({
             </div>
 
             {/* Logout or empty space */}
-            <div className="p-6 border-t border-white/10">
+            <div className="p-6 border-t border-white/10 text-white">
                 {user ? (
                     <button
                         onClick={handleLogout}

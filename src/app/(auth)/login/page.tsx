@@ -129,11 +129,10 @@ export default function LoginPage() {
                                 />
                                 Ghi nhớ đăng nhập
                             </label>
-                            <Link href="/forgot" className="text-primary hover:underline text-sm">
+                            <Link href="/reset-password" className="text-primary hover:underline text-sm">
                                 Quên mật khẩu?
                             </Link>
                         </div>
-
                         <button
                             type="submit"
                             disabled={loading}

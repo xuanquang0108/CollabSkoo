@@ -2,7 +2,6 @@
 
 import { ChangeEvent, useId, useState, useEffect } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -14,6 +13,7 @@ type Props = {
     name?: string;
     autoComplete?: string;
     className?: string;
+    label?: string | null; // <-- added here
 };
 
 export default function PasswordInput({
@@ -24,6 +24,7 @@ export default function PasswordInput({
                                           name = "password",
                                           autoComplete,
                                           className,
+                                          label = "Mật khẩu", // <-- default label
                                       }: Props) {
     const autoDd = useId();
     const inputId = id ?? `password-${autoDd}`;
@@ -31,15 +32,14 @@ export default function PasswordInput({
     const [internal, setInternal] = useState<string>(value ?? "");
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
-    // keep internal state in sync when parent passes a new value (controlled mode)
+    // sync with parent
     useEffect(() => {
         if (value !== undefined && value !== internal) {
             setInternal(value);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
+    }, [value, internal]);
 
-    const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+    const toggleVisibility = () => setIsVisible((prev) => !prev);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const v = e.target.value;
@@ -49,7 +49,7 @@ export default function PasswordInput({
 
     return (
         <div className="*:not-first:mt-2">
-            <Label htmlFor={inputId}>Mật khẩu</Label>
+            {label && <Label htmlFor={inputId}>{label}</Label>} {/* only render if label is not null */}
             <div className="relative">
                 <Input
                     id={inputId}
@@ -72,7 +72,11 @@ export default function PasswordInput({
                     aria-pressed={isVisible}
                     aria-controls={inputId}
                 >
-                    {isVisible ? <EyeOffIcon size={15} aria-hidden="true" /> : <EyeIcon size={15} aria-hidden="true" />}
+                    {isVisible ? (
+                        <EyeOffIcon size={15} aria-hidden="true" />
+                    ) : (
+                        <EyeIcon size={15} aria-hidden="true" />
+                    )}
                 </button>
             </div>
         </div>
