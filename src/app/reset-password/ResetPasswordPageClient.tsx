@@ -146,25 +146,38 @@ export default function ResetPasswordPage() {
     /* --- Handlers --- */
     const sendOtp = async () => {
         if (!email) {
-            toast.error("Vui lòng nhập email.")
-            return
+            toast.error("Vui lòng nhập email.");
+            return;
         }
-        setLoading(true)
+        setLoading(true);
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${location.origin}/reset-password`,
-        })
+        try {
+            const res = await fetch("/api/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email.trim().toLowerCase() }),
+            });
 
-        setLoading(false)
-        if (error) {
-            toast.error("Mật khẩu phải có ít nhất 8 ký tự, bao gồm số, chữ hoa và chữ thường.")
-            return
+            const data = await res.json();
+            setLoading(false);
+
+            if (!res.ok) {
+                console.error("send-otp failed", res.status, data);
+                // show server's error message in dev (but avoid exposing sensitive details in prod)
+                toast.error(data?.error || "Có lỗi khi gửi mã OTP.");
+                return;
+            }
+
+            toast.success(data?.message || "Mã OTP đã gửi. Kiểm tra mail (hộp chính / spam).");
+            setOtpSent(true);
+            setResendCountdown(60);
+        } catch (err) {
+            setLoading(false);
+            console.error("send-otp fetch error:", err);
+            toast.error("Không thể gửi yêu cầu. Kiểm tra console/terminal để biết chi tiết.");
         }
+    };
 
-        toast.success("Mã OTP đã gửi. Kiểm tra mail (hộp chính / spam).")
-        setOtpSent(true)
-        setResendCountdown(60)
-    }
 
     async function verifyOtp(manualToken?: string) {
         const tokenRaw = (manualToken ?? otp).replace(/\D/g, "").slice(0, 6)
