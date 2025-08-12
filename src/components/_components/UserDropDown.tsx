@@ -46,6 +46,7 @@ export default function UserDropDown({ user }: UserDropDownProps) {
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
+      window.history.replaceState(null, '', window.location.pathname);
     toast.success("Đăng xuất thành công")
     router.refresh()
   }
