@@ -2,7 +2,6 @@
 
 import { createPortal } from "react-dom"
 import { useEffect, useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import {
     BookOpenIcon,
@@ -37,7 +36,7 @@ export default function MobileMenuPortal({
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
-        window.history.replaceState(null, '', window.location.pathname);
+        window.history.replaceState(null, "", window.location.pathname)
         toast.success("Đăng xuất thành công")
         onClose()
     }
@@ -47,31 +46,24 @@ export default function MobileMenuPortal({
     return createPortal(
         <div className="fixed inset-0 z-[999] bg-black text-white flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-white/10 min-h">
-                {user ? (
+            <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
+                {user && (
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-neutral-800/80 flex items-center justify-center">
-                            {user.user_metadata?.avatar_url ? (
-                                <Image
-                                    src={user.user_metadata.avatar_url}
-                                    alt="User avatar"
-                                    width={40}
-                                    height={40}
-                                    className="rounded-full"
-                                />
-                            ) : (
-                                <span className="text-sm font-semibold">{getInitials(user.email)}</span>
-                            )}
+              <span className="text-sm font-semibold">
+                {getInitials(user.email)}
+              </span>
                         </div>
                         <div>
                             <p className="font-semibold">{user.email?.split("@")[0]}</p>
                             <p className="text-sm text-gray-400">{user.email}</p>
                         </div>
                     </div>
-                ):(
-                    <div className="flex items-center gap-3"></div>
                 )}
-                <button onClick={onClose} className="text-white text-2xl w-5 h-5 min-h-[70px] mr-4">
+                <button
+                    onClick={onClose}
+                    className="text-white text-2xl w-5 h-5 min-h-[70px] mr-4"
+                >
                     ✕
                 </button>
             </div>
@@ -94,15 +86,27 @@ export default function MobileMenuPortal({
             <div className="flex flex-col p-6 space-y-6">
                 {user ? (
                     <>
-                        <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
+                        <Link
+                            href="#"
+                            className="flex items-center gap-3 hover:text-white"
+                            onClick={onClose}
+                        >
                             <Layers2Icon size={18} />
                             <span>Tài liệu của tôi</span>
                         </Link>
-                        <Link href="/leaderBoard" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
+                        <Link
+                            href="/leaderBoard"
+                            className="flex items-center gap-3 hover:text-white"
+                            onClick={onClose}
+                        >
                             <BookOpenIcon size={18} />
                             <span>Bảng xếp hạng</span>
                         </Link>
-                        <Link href="#" className="flex items-center gap-3 hover:text-white" onClick={onClose}>
+                        <Link
+                            href="#"
+                            className="flex items-center gap-3 hover:text-white"
+                            onClick={onClose}
+                        >
                             <UserPenIcon size={18} />
                             <span>Cập nhật hồ sơ</span>
                         </Link>
@@ -127,9 +131,9 @@ export default function MobileMenuPortal({
                 )}
             </div>
 
-            {/* Logout or empty space */}
+            {/* Logout */}
             <div className="p-6 border-t border-white/10 text-white">
-                {user ? (
+                {user && (
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 w-full text-left hover:text-white"
@@ -137,8 +141,6 @@ export default function MobileMenuPortal({
                         <LogOutIcon size={18} />
                         <span>Đăng xuất</span>
                     </button>
-                ) : (
-                    <div></div>
                 )}
             </div>
         </div>,
