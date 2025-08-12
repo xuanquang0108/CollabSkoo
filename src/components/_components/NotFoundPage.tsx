@@ -26,7 +26,7 @@ export default function NotFoundPage({ message }: NotFoundPageProps) {
 
                 <div className="absolute right-0 bottom-0 w-[150px] h-[150px] md:w-[250px] md:h-[250px]">
                     <Image
-                        src="/assets/404-Mascot.png"
+                        src="/assets/404-mascot.png"
                         alt="404 mascot"
                         width={250}
                         height={250}
