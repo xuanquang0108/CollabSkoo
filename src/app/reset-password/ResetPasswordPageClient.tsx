@@ -213,7 +213,15 @@ export default function ResetPasswordPage() {
         setLoading(false)
         if (error) {
             console.error("updateUser error:", error)
-            toast.error(error.message || "Không thể cập nhật mật khẩu.")
+
+            if (
+                error.message?.toLowerCase().includes("new password should be different from the old password.") ||
+                error.message?.toLowerCase().includes("must be different from the current password")
+            ) {
+                toast.error("Mật khẩu mới phải khác mật khẩu hiện tại.")
+            } else {
+                toast.error(error.message || "Không thể cập nhật mật khẩu.")
+            }
             return
         }
         toast.success("Mật khẩu đã được cập nhật. Vui lòng đăng nhập lại.")
