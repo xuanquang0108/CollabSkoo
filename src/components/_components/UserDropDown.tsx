@@ -77,19 +77,14 @@ export default function UserDropDown({ user }: UserDropDownProps) {
 
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <BoltIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Tài khoản</span>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
             <Layers2Icon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Tài liệu của tôi</span>
+            <span>Tài liệu</span>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
               <Link href="/leaderBoard">
                   <BookOpenIcon size={16} className="opacity-60" aria-hidden="true" />
-                  <span>Leader Board</span>
+                  <span>Bảng xếp hạng</span>
               </Link>
           </DropdownMenuItem>
 
@@ -98,13 +93,11 @@ export default function UserDropDown({ user }: UserDropDownProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <PinIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Đã lưu</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
-            <span>Cập nhật hồ sơ</span>
+          <DropdownMenuItem asChild>
+            <Link href="/profile">
+                <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
+                <span>Cập nhật hồ sơ</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 

@@ -103,7 +103,7 @@ export default function MobileMenuPortal({
                             <span>Bảng xếp hạng</span>
                         </Link>
                         <Link
-                            href="#"
+                            href="/profile"
                             className="flex items-center gap-3 hover:text-white"
                             onClick={onClose}
                         >
