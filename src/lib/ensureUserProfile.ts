@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export async function ensureUserProfile(supabase) {
+export async function ensureUserProfile(supabase: SupabaseClient) {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError || !user) return;
 
