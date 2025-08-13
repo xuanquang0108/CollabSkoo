@@ -12,6 +12,7 @@ import {
 import { User } from "@supabase/supabase-js"
 import { supabase } from "@/lib/supabaseClient"
 import { toast } from "sonner"
+import {router} from "next/client";
 
 function getInitials(email: string | undefined): string {
     if (!email) return "U"
@@ -38,6 +39,7 @@ export default function MobileMenuPortal({
         await supabase.auth.signOut()
         window.history.replaceState(null, "", window.location.pathname)
         toast.success("Đăng xuất thành công")
+        window.location.replace('/');
         onClose()
     }
 
