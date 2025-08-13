@@ -49,12 +49,6 @@ export default function RegisterPage() {
             return;
         }
 
-        if(error) {
-            toast.error(error.message);
-            setLoading(false);
-            return;
-        }
-
         // 3. Done
         toast.success(
             "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản."
