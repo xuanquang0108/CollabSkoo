@@ -26,7 +26,6 @@ export default function AuthCallback() {
                 router.replace("/login");
             } else {
                 toast.success("Đăng nhập thành công!");
-                // ép về trang chủ luôn
                 router.replace("/");
             }
             setLoading(false);

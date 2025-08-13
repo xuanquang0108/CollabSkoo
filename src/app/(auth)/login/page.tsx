@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import BackButton from "@/components/_components/BackButton";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {ensureUserProfile} from "@/lib/ensureUserProfile";
 
 export default function LoginPage() {
     // controlled state for form
@@ -57,8 +58,10 @@ export default function LoginPage() {
             if (remember) localStorage.setItem("skoo_email", email);
             else localStorage.removeItem("skoo_email");
 
+
+            ensureUserProfile(supabase)
             toast.success("Đăng nhập thành công!")
-            router.push("/");
+            router.replace("/");
         }
     };
 

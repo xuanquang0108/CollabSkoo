@@ -6,57 +6,68 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import BackButton from "@/components/_components/BackButton";
-import {Input} from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import PasswordStrengthInput from "@/components/_components/PasswordStrengthIndicator";
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [userName, setUserName] = useState("");
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setMessage("");
 
+        // Check password format
         const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
         if (!passwordRequirements.test(password)) {
-            toast.error("Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường và 1 số.");
+            toast.error(
+                "Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa, 1 chữ thường và 1 số."
+            );
             setLoading(false);
             return;
         }
 
-        const { error } = await supabase.auth.signUp({
+        // 1. Register in Supabase Auth
+        const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
                 emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+                data: {
+                    username: userName,
+                },
             },
         });
 
-        setLoading(false);
-
         if (error) {
             toast.error(error.message);
-        } else {
-            toast.success("Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.");
-            await new Promise((res) => setTimeout(res, 2000));
-            router.push("/login");
+            setLoading(false);
+            return;
         }
+
+        if(error) {
+            toast.error(error.message);
+            setLoading(false);
+            return;
+        }
+
+        // 3. Done
+        toast.success(
+            "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản."
+        );
+        setLoading(false);
+        router.push("/login");
     };
 
     return (
         <main className="w-full min-h-screen flex items-center justify-center py-8 px-4 bg-background">
-            <div
-                className="relative w-full max-w-md bg-white rounded-3xl shadow-lg p-8
-                   flex flex-col items-center justify-center gap-6"
-            >
-                {/* Quay lại */}
+            <div className="relative w-full max-w-md bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center justify-center gap-6">
                 <div className="flex flex-col items-center justify-center">
-                    <BackButton/>
+                    <BackButton />
                 </div>
 
                 {/* Logo + heading */}
@@ -68,7 +79,9 @@ export default function RegisterPage() {
                         height={160}
                         className="mb-2"
                     />
-                    <h1 className="text-2xl font-bold text-center uppercase text-primary space-y-4">Đăng ký tài khoản</h1>
+                    <h1 className="text-2xl font-bold text-center uppercase text-primary">
+                        Đăng ký tài khoản
+                    </h1>
                     <p className="text-sm text-gray-500 text-center mt-1">
                         Vui lòng nhập thông tin của bạn để đăng ký tài khoản.
                     </p>
@@ -78,6 +91,17 @@ export default function RegisterPage() {
                 <form className="w-full mt-2" onSubmit={handleRegister}>
                     <div className="space-y-4">
                         <div>
+                            <label className="block text-sm font-medium mb-1">
+                                Tên người dùng
+                            </label>
+                            <Input
+                                id="userName"
+                                required
+                                value={userName}
+                                onChange={(e) => setUserName(e.target.value)}
+                                placeholder="Nhập tên người dùng"
+                            />
+
                             <label htmlFor="email" className="block text-sm font-medium mb-1">
                                 Email
                             </label>
@@ -88,9 +112,6 @@ export default function RegisterPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="your@email.com"
-                                className="w-full rounded-md border border-primary bg-white px-3 py-2 text-sm text-black placeholder-gray-400
-                                focus:outline-none focus:ring-2 focus:!ring-primary focus:!border-primary"
-                                aria-label="Email"
                             />
                         </div>
 
@@ -124,7 +145,8 @@ export default function RegisterPage() {
                     và{" "}
                     <Link href="/privacy" className="text-primary hover:underline">
                         Chính sách bảo mật
-                    </Link>.
+                    </Link>
+                    .
                 </p>
             </div>
         </main>
