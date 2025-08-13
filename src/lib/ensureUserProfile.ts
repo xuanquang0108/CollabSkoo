@@ -14,7 +14,9 @@ export async function ensureUserProfile(supabase: SupabaseClient) {
     if (!existing) {
         const { error: insertError } = await supabase.from("users").insert([{
             auth_id: user.id,
-            username: user.user_metadata?.username || user.email.split("@")[0],
+            username:
+                user.user_metadata?.username ||
+                (user.email ? user.email.split("@")[0] : "anonymous"),
             documents: 0,
             rank: "Newbie",
             points: 0,
