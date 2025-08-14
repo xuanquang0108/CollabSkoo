@@ -1,29 +1,21 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from '@supabase/supabase-js'
 
-export async function ensureUserProfile(supabase: SupabaseClient) {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) return;
+export async function ensureUserProfile(supabase:any) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
-    // Check if already exists
     const { data: existing } = await supabase
         .from("users")
-        .select("auth_id")
-        .eq("auth_id", user.id)
-        .maybeSingle();
+        .select("id")
+        .eq("id", user.id)
+        .single();
 
     if (!existing) {
-        const { error: insertError } = await supabase.from("users").insert([{
-            auth_id: user.id,
-            username:
-                user.user_metadata?.username ||
-                (user.email ? user.email.split("@")[0] : "anonymous"),
-            documents: 0,
-            rank: "Newbie",
-            points: 0,
-        }]);
-
-        if (insertError) {
-            console.error("Insert user profile error:", insertError);
-        }
+        await supabase.from("users").insert({
+            id: user.id,
+            email: user.email,
+            created_at: new Date()
+        });
     }
 }
+

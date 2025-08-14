@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "sonner";
+import { ensureUserProfile } from "@/lib/ensureUserProfile";
 
 export default function AuthCallback() {
     const router = useRouter();
@@ -13,21 +14,36 @@ export default function AuthCallback() {
 
     useEffect(() => {
         const handleAuth = async () => {
-            if (!code) {
-                toast.error("Không tìm thấy mã xác thực.");
-                router.replace("/login");
-                return;
-            }
+            let session = null;
 
-            const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-
-            if (error || !data.session) {
-                toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
-                router.replace("/login");
+            // Trường hợp OAuth / PKCE
+            if (code) {
+                const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+                if (error) {
+                    toast.error("Đăng nhập thất bại.");
+                    router.replace("/login");
+                    return;
+                }
+                session = data.session;
             } else {
-                toast.success("Đăng nhập thành công!");
-                router.replace("/");
+                // Trường hợp xác nhận email (magic link / confirm email)
+                const { data, error } = await supabase.auth.getSession();
+                if (error || !data.session) {
+                    toast.error("Liên kết đã hết hạn hoặc không hợp lệ.");
+                    router.replace("/login");
+                    return;
+                }
+                session = data.session;
             }
+
+            // ✅ Chờ session sẵn sàng
+            await new Promise(r => setTimeout(r, 200));
+
+            // ✅ Tạo user profile
+            await ensureUserProfile(supabase);
+
+            toast.success("Đăng nhập thành công!");
+            router.replace("/");
             setLoading(false);
         };
 
